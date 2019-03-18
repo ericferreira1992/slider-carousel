@@ -1,0 +1,58 @@
+<section #section *ngIf="images && images.length" [style.width]="width" [style.maxWidth]="maxWidth">
+    <div [hidden]="windowResing" *ngIf="containerWidth > 0" class="image-controller animated fadeIn" [style.maxWidth]="containerWidth + 'px'">
+
+        <!-- INNER CONTAINER -->
+        <ul #innerImages *ngIf="!autoSize"
+            [ngClass]="{'dragging-effect': isDragging}"
+            [style.left]="(isDragging ? drag.currentLeft : (-currentImageIndex * containerWidth)) + 'px'"
+            [style.height]="height">
+            <li *ngFor="let image of images; let i = index;"
+                [style.backgroundImage]="'url(' + image.md + ')'"
+                [style.width]="containerWidth + 'px'"
+                [ngClass]="{'cursor-pointer': preview, 'is-current': i === currentImageIndex}"
+                (click)="!isDragging && previewImage(image)">
+            </li>
+        </ul>
+        <ul #innerImages *ngIf="autoSize"
+            [ngClass]="{'dragging-effect': isDragging}"
+            [style.left]="(isDragging ? drag.currentLeft : (-currentImageIndex * containerWidth)) + 'px'">
+            <div *ngFor="let image of images; let i = index;" [style.width]="containerWidth + 'px'">
+                <img [src]="image.md"
+                    [ngClass]="{'cursor-pointer': preview, 'is-current': i === currentImageIndex}"
+                    (click)="!isDragging && previewImage(image)"
+                />
+            </div>
+        </ul>
+
+        <!-- NAVIGATION BUTTONS -->
+        <div (click)="goPrevImage()" class="image-controller-prev" [ngClass]="{'disabled': currentImageIndex <= 0}" role="button">
+            <svg viewBox="0 0 456 456">
+                <path d="M227.996,0C102.081,0,0,102.081,0,227.996c0,125.945,102.081,227.996,227.996,227.996
+				c125.945,0,227.996-102.051,227.996-227.996C455.992,102.081,353.941,0,227.996,0z M299.435,238.788l-98.585,98.585
+				c-5.928,5.897-15.565,5.897-21.492,0c-5.928-5.928-5.928-15.595,0-21.492l87.885-87.885l-87.885-87.885
+				c-5.928-5.928-5.928-15.565,0-21.492s15.565-5.928,21.492,0l98.585,98.585c3.04,2.979,4.469,6.901,4.438,10.792
+				C303.873,231.918,302.414,235.809,299.435,238.788z"/>
+            </svg>                    
+        </div>
+        <div (click)="goNextImage()" class="image-controller-next" [ngClass]="{'disabled': (currentImageIndex + 1) >= images.length}" role="button">
+            <svg viewBox="0 0 456 456">
+                <path d="M227.996,0C102.081,0,0,102.081,0,227.996c0,125.945,102.081,227.996,227.996,227.996
+				c125.945,0,227.996-102.051,227.996-227.996C455.992,102.081,353.941,0,227.996,0z M299.435,238.788l-98.585,98.585
+				c-5.928,5.897-15.565,5.897-21.492,0c-5.928-5.928-5.928-15.595,0-21.492l87.885-87.885l-87.885-87.885
+				c-5.928-5.928-5.928-15.565,0-21.492s15.565-5.928,21.492,0l98.585,98.585c3.04,2.979,4.469,6.901,4.438,10.792
+				C303.873,231.918,302.414,235.809,299.435,238.788z"/>
+            </svg>  
+        </div>
+
+    </div>
+
+    <!-- GALLERY NAVIGATION -->
+    <div [hidden]="windowResing" *ngIf="!windowResing && containerWidth > 0" #imageList class="footer-images animated fadeIn" [style.maxWidth]="containerWidth + 'px'">
+        <ul>
+            <li matRipple (click)="selectImage(i, $event)" *ngFor="let image of images; let i = index;"
+                [ngClass]="{'is-current': i === currentImageIndex}"
+                [style.backgroundImage]="'url(' + image.sm + ')'">
+            </li>
+        </ul>
+    </div>
+</section>
