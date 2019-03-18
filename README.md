@@ -1,15 +1,15 @@
-# SliderCarousel | Angular 7+
+# slider-carousel | Angular 7+
 
 Angular component of carousel, using slider as transition. This is a simple, clean and light alternative.
 
 Compatible with previous versions of Angular, except AngularJS.
 
-## Example
+## Example See a ([more examples](#)).
 
 ```html
 <slider-carousel [images]="example.images"></slider-carousel>
 ```
-![](example.png)
+![](example.jpg)
 
 # Usage
 
