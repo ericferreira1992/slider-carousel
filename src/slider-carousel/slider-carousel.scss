@@ -1,4 +1,4 @@
-@mixin slider-carousel($color: #FFFFFF) {
+@mixin slider-carousel($defaultColor: #FFFFFF, $bgColor: #FFF) {
     .slider-carousel {
         -webkit-user-select: none;       
         -moz-user-select: none;
@@ -20,7 +20,7 @@
                 box-shadow: 0 0 6px rgba(0,0,0, .2), 0 0 20px rgba(0,0,0, .2);
                 overflow: hidden;
                 margin: auto;
-                background-color: #FFF;
+                background-color: $bgColor;
     
                 .image-controller-background {
                     position: absolute;
@@ -58,7 +58,7 @@
                     }
     
                     &::before {
-                        $rowColor: $color;
+                        $rowColor: $defaultColor;
                         @if ($rowColor = #FFFFFF) {
                             $rowColor: rgba(#000, .4);
                         }
@@ -119,7 +119,7 @@
                         background-size: contain;
                         background-repeat: no-repeat;
                         background-position: center;
-                        background-color: #FFF;
+                        background-color: $bgColor;
                     }
         
                     > div {
@@ -186,7 +186,7 @@
     
                         &.is-current {
                             &::before {
-                                border-color: $color;
+                                border-color: $defaultColor;
                             }
                         }
     
@@ -195,7 +195,7 @@
                             &:hover {
     
                                 &::before {
-                                    border-color: $color;
+                                    border-color: $defaultColor;
                                 }
                             }
                         }

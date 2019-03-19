@@ -311,7 +311,7 @@ export class SliderCarouselComponent implements OnInit, OnChanges, OnDestroy {
 
 			let amountDragged = Math.abs(this.drag.startOffset - this.drag.currentOffset);
 
-			if (amountDragged > 0)
+			if (amountDragged > 0 && this.drag.state === 'dragging')
 				setTimeout(() => {
 					this.drag.state = 'none';
 
@@ -332,8 +332,9 @@ export class SliderCarouselComponent implements OnInit, OnChanges, OnDestroy {
 							this.goNextImage(salts);
 					}
 				});
-			else
+			else {
 				this.drag.state = 'none';
+			}
 		}
 	}
 
