@@ -1,18 +1,18 @@
 import { Component, OnInit, HostBinding, Input, ElementRef, ViewChild, OnDestroy, OnChanges, Renderer2 } from '@angular/core';
-import { Helper } from './helper';
 import { Observable } from 'rxjs';
 import { SliderCarouselPreviewComponent } from './slider-carousel-preview/slider-carousel-preview.component';
+import { Helper } from './helper';
 
 @Component({
 	selector: 'slider-carousel',
 	templateUrl: './slider-carousel.component.html',
 	host: {
 		'(document:keydown)': 'onKeydown($event)',
-		'(window:resize)': 'onWindowResize($event)'
+		'(window:resize)': 'onWindowResize()'
 	}
 })
 export class SliderCarouselComponent implements OnInit, OnChanges, OnDestroy {
-	@HostBinding('class.slider-carousel') private class: boolean = true;
+	@HostBinding('class.slider-carousel') public class: boolean = true;
 
 	@ViewChild('section') private sectionEl: ElementRef<HTMLElement>;
 	@ViewChild('imageList') private imageListEl: ElementRef<HTMLElement>;
@@ -36,7 +36,7 @@ export class SliderCarouselComponent implements OnInit, OnChanges, OnDestroy {
 	public containerWidth: number = 0;
 
 	private destroyed: boolean = false;
-	private windowResing: boolean = false;
+	public windowResizing: boolean = false;
 	private previewRef: {
 		onClose: Observable<any>,
 		instance: SliderCarouselPreviewComponent
@@ -131,7 +131,7 @@ export class SliderCarouselComponent implements OnInit, OnChanges, OnDestroy {
 		if (this.destroyed)
 			return;
 
-		if (!this.windowResing) {
+		if (!this.windowResizing) {
 			let width = 0;
 			if (this.sectionEl && this.sectionEl.nativeElement)
 				width = this.sectionEl.nativeElement.clientWidth;
@@ -224,7 +224,7 @@ export class SliderCarouselComponent implements OnInit, OnChanges, OnDestroy {
 		}
 	}
 
-	private onKeydown(event) {
+	public onKeydown(event) {
 		if (!this.destroyed && !this.isDragging && [37, 39].indexOf(event.keyCode) >= 0) {
             if (event.keyCode === 37)
                 this.goPrevImage();
@@ -236,12 +236,12 @@ export class SliderCarouselComponent implements OnInit, OnChanges, OnDestroy {
 		}
 	}
 
-	private onWindowResize() {
-		if (!this.destroyed && !this.windowResing) {
-			this.windowResing = true;
+	public onWindowResize() {
+		if (!this.destroyed && !this.windowResizing) {
+			this.windowResizing = true;
 			setTimeout(() => {
 				this.containerWidth = this.sectionEl.nativeElement.clientWidth;
-				this.windowResing = false;
+				this.windowResizing = false;
 
 				setTimeout(() => {
 					if (this.imageListEl && this.imageListEl.nativeElement) {

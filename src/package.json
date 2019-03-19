@@ -1,17 +1,24 @@
 {
   "name": "slider-carousel",
-  "version": "1.0.2",
+  "version": "1.0.1",
   "repository": "https://github.com/ericferreira1992/slider-carousel",
   "keywords": [
-    "angular"
+    "angular",
+    "angular2",
+    "carousel",
+    "slider",
+    "gallery",
+    "images",
+    "ngx"
   ],
   "author": "ericferreira <ericferreira1992@gmail.com>",
   "license": "MIT",
   "private": false,
   "peerDependencies": {
-    "@angular/core": ">=6.0.0",
-    "@angular/common": ">=6.0.0",
-    "@angular/forms": "^6.0.3"
+    "@angular/animations": "~7.2.0",
+    "@angular/common": "~7.2.0",
+    "@angular/compiler": "~7.2.0",
+    "@angular/core": "~7.2.0"
   },
   "ngPackage": {
     "$schema": "./node_modules/ng-packagr/ng-package.schema.json",

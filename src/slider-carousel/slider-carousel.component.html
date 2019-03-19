@@ -1,5 +1,5 @@
 <section #section *ngIf="images && images.length" [style.width]="width" [style.maxWidth]="maxWidth">
-    <div [hidden]="windowResing" *ngIf="containerWidth > 0" class="image-controller animated fadeIn" [style.maxWidth]="containerWidth + 'px'">
+    <div [hidden]="windowResizing" *ngIf="containerWidth > 0" class="image-controller animated fadeIn" [style.maxWidth]="containerWidth + 'px'">
 
         <!-- INNER CONTAINER -->
         <ul #innerImages *ngIf="!autoSize"
@@ -47,7 +47,7 @@
     </div>
 
     <!-- GALLERY NAVIGATION -->
-    <div [hidden]="windowResing" *ngIf="!windowResing && containerWidth > 0" #imageList class="footer-images animated fadeIn" [style.maxWidth]="containerWidth + 'px'">
+    <div [hidden]="windowResizing" *ngIf="!windowResizing && containerWidth > 0" #imageList class="footer-images animated fadeIn" [style.maxWidth]="containerWidth + 'px'">
         <ul>
             <li matRipple (click)="selectImage(i, $event)" *ngFor="let image of images; let i = index;"
                 [ngClass]="{'is-current': i === currentImageIndex}"

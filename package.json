@@ -1,13 +1,13 @@
 {
   "name": "slider-carousel",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
     "ng": "ng",
     "start": "pushd example && ng serve",
     "heroku-postbuild": "pushd example && ng build --aot --prod",
     "build": "pushd example && ng build --prod",
     "build:lib": "rimraf dist && npm run packagr && node copy && cd dist && npm pack",
-    "packagr": "ng-packagr -p slider-carousel/package.json"
+    "packagr": "ng-packagr -p src/package.json"
   },
   "engines": {
     "node": "8.11.3",
@@ -23,12 +23,28 @@
     "@angular/platform-browser": "~7.2.0",
     "@angular/platform-browser-dynamic": "~7.2.0",
     "core-js": "^2.5.4",
+    "rxjs": "~6.3.3",
+    "tslib": "^1.9.0",
+    "zone.js": "~0.8.26",
+    "fast-deep-equal": "^2.0.1",
     "express": "^4.16.3",
-    "rxjs": "~6.3.3"
+    "path": "^0.12.7"
   },
   "devDependencies": {
-    "ng-packagr": "3.0.0-rc.2",
+    "@angular-devkit/build-angular": "~0.13.0",
+    "@angular/cli": "~7.3.3",
+    "@angular/compiler-cli": "~7.2.0",
+    "@angular/language-service": "~7.2.0",
+    "@types/jasmine": "~2.8.8",
+    "@types/jasminewd2": "~2.0.3",
+    "@types/node": "~8.9.4",
+    "codelyzer": "~4.2.1",
+    "cpx": "^1.5.0",
+    "ng-packagr": "~4.7.1",
     "protractor": "~5.3.0",
-    "ts-node": "~5.0.1"
+    "ts-node": "~5.0.1",
+    "tsickle": "^0.34.3",
+    "tslint": "~5.9.1",
+    "typescript": "~3.2.2"
   }
 }
