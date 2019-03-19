@@ -49,7 +49,7 @@ export class AppModule { }
 ## Inputs/Outputs (Required)
 Name		                | Type                										| Description
 ----                    	| ----                										| ----
-`images`		            | `string[] | { lg: string, md?: string, sm?: string }[]`	| Address list of the images to be displayed.
+`images`		            | `string[]` or `{ lg: string, md?: string, sm?: string }[]`	| Address list of the images to be displayed. He accept an array of object (with the sizes of each images) or a simple array of string.
 
 ## Inputs/Outputs (Optional)
 Name		        		| Type      	| Default		| Description
@@ -59,4 +59,13 @@ Name		        		| Type      	| Default		| Description
 `height`     				| `string`		| `'500px'`  	| Define a fixed height to container. (ex .: ``` <... height="350px"></...>```).
 `width`        				| `string`		| `'100%'`		| Define a fixed width to container. (ex .: ``` <... width="300px"></...>```).
 `max-width`  				| `string`		| `'100%'`		| Define a max width to container. (ex .: ``` <... max-width="800px"></...>```).
+
+# Understand images sizes
+
+## The `sm` is thumbnail and `md` is carousel image:
+![](images_sm_md_apply.jpg)
+
+## The `lg` is full image on preview mode:
+![](images_lg_apply.jpg)
+
 
