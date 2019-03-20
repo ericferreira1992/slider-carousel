@@ -1,0 +1,25 @@
+<div class="example-nav-bar">
+    <div>
+        <span>slider-carousel</span>
+    </div>
+    <ul>
+        <li *ngFor="let number of [1,2,3,4]" (click)="selectExample(number)" [ngClass]="{'active': currentNumber === number}">Example 0{{number}}</li>
+    </ul>
+</div>
+
+<div class="example">
+    <section>
+        <h3>{{example.title}}</h3>
+        <h5>{{example.html}}</h5>
+        <slider-carousel *ngIf="currentNumber === 1" [images]="images"></slider-carousel>
+        <slider-carousel *ngIf="currentNumber === 2" [images]="images" [auto-size]="true"></slider-carousel>
+        <slider-carousel *ngIf="currentNumber === 3" [images]="images" [auto-size]="true" max-width="500px"></slider-carousel>
+        <slider-carousel *ngIf="currentNumber === 4" [images]="images" height="350px" max-width="600px"></slider-carousel>
+    </section>
+</div>
+
+<div style="clear: both"></div>
+<div class="footer">
+    See the source code into <br/>
+    <a href="https://github.com/ericferreira1992/slider-carousel" target="_blank">Github</a> repository.
+</div>

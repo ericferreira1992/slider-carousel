@@ -1,0 +1,12 @@
+$color: #009688;
+$bg: #FFF;
+
+html, body {
+    margin: 0;
+    font-family: monospace;
+    background: #FAFAFA;
+    height: 100%;
+}
+
+@import '../../src/slider-carousel/slider-carousel.scss';
+@include slider-carousel($color, $bg);
