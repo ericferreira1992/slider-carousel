@@ -10,14 +10,14 @@ export class AppComponent {
 	public currentNumber: number = 1;
 	public example: any = null;
 	public images: string[] = [
-		'/assets/img/at_01.jpg',
-		'/assets/img/at_02.jpg',
-		'/assets/img/at_03.jpg',
-		'/assets/img/at_04.jpg',
-		'/assets/img/rm_01.jpg',
-		'/assets/img/rm_02.jpg',
-		'/assets/img/rm_03.jpg',
-		'/assets/img/rm_04.jpg',
+		'assets/img/at_01.jpg',
+		'assets/img/at_02.jpg',
+		'assets/img/at_03.jpg',
+		'assets/img/at_04.jpg',
+		'assets/img/rm_01.jpg',
+		'assets/img/rm_02.jpg',
+		'assets/img/rm_03.jpg',
+		'assets/img/rm_04.jpg',
 	]
 	public examples: any[] = [
 		{

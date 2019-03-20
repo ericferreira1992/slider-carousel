@@ -4,9 +4,10 @@
   "scripts": {
     "ng": "ng",
     "start": "pushd example && ng serve",
-    "build-docs-github": "pushd example && ng build --aot --prod --output-path=../docs --deploy-url=https://raw.githubusercontent.com/ericferreira1992/slider-carousel/master/docs/",
-    "build": "pushd example && ng build --prod",
-    "build:lib": "rimraf dist && npm run packagr && node copy && cd dist && npm pack",
+    "build": "pushd example && ng build --aot --prod",
+    "deploy-git-pages": "pushd example && ng build --aot --prod --base-href=/slider-carousel/ && node ../node_modules/gh-pages/bin/gh-pages -d dist",
+    "build-lib": "rimraf dist && npm run packagr && node copy && cd dist && npm pack",
+    "publish-pkg": "pushd dist && npm publish",
     "packagr": "ng-packagr -p src/package.json"
   },
   "engines": {
@@ -23,12 +24,13 @@
     "@angular/platform-browser": "~7.2.0",
     "@angular/platform-browser-dynamic": "~7.2.0",
     "core-js": "^2.5.4",
+    "express": "^4.16.3",
+    "fast-deep-equal": "^2.0.1",
+    "gh-pages": "^2.0.1",
+    "path": "^0.12.7",
     "rxjs": "~6.3.3",
     "tslib": "^1.9.0",
-    "zone.js": "~0.8.26",
-    "fast-deep-equal": "^2.0.1",
-    "express": "^4.16.3",
-    "path": "^0.12.7"
+    "zone.js": "~0.8.26"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.13.0",
