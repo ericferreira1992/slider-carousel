@@ -4,13 +4,13 @@
   "scripts": {
     "ng": "ng",
     "start": "pushd example && ng serve",
-    "heroku-postbuild": "pushd example && ng build --aot --prod",
+    "build-docs-github": "pushd example && ng build --aot --prod --output-path=../docs",
     "build": "pushd example && ng build --prod",
     "build:lib": "rimraf dist && npm run packagr && node copy && cd dist && npm pack",
     "packagr": "ng-packagr -p src/package.json"
   },
   "engines": {
-    "node": "8.11.3",
+    "node": "10.14.1",
     "npm": "6.4.1"
   },
   "private": true,
