@@ -5,7 +5,7 @@ This is a simple, clean and light alternative. It also does not need dependencie
 
 Compatible with previous versions of Angular, except AngularJS.
 
-## Example ([more examples](#)).
+## Use example ([more examples](https://ericferreira1992.github.io/slider-carousel/)).
 
 ```html
 <slider-carousel [images]="example.images"></slider-carousel>
