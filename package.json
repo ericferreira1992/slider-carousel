@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "pushd example && ng serve",
-    "build-docs-github": "pushd example && ng build --aot --prod --output-path=../docs",
+    "build-docs-github": "pushd example && ng build --aot --prod --output-path=../docs --deploy-url=https://raw.githubusercontent.com/ericferreira1992/slider-carousel/master/docs/",
     "build": "pushd example && ng build --prod",
     "build:lib": "rimraf dist && npm run packagr && node copy && cd dist && npm pack",
     "packagr": "ng-packagr -p src/package.json"
