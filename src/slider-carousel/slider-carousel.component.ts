@@ -111,8 +111,7 @@ export class SliderCarouselComponent implements OnInit, OnChanges, OnDestroy {
 
 	private initSlideDragWatching() {
 		if (this.innerImagesEl && this.innerImagesEl.nativeElement) {
-			if (this.listeners && this.listeners.length)
-				this.listeners.forEach((unListen) => unListen());
+			this.stopSlideDragWatching();
 
 			this.listeners = [
 				this.renderer.listen(window, 'mousedown', this.onStartDrag.bind(this)),
@@ -125,6 +124,11 @@ export class SliderCarouselComponent implements OnInit, OnChanges, OnDestroy {
 		}
 		else
 			setTimeout(() => this.initSlideDragWatching(), 200);
+	}
+
+	private stopSlideDragWatching() {
+		if (this.listeners && this.listeners.length)
+			this.listeners.forEach((unListen) => unListen());
 	}
 
 	private defineContainerWidth() {
@@ -259,16 +263,7 @@ export class SliderCarouselComponent implements OnInit, OnChanges, OnDestroy {
 			if (event.originalEvent && event.originalEvent.touches)
 				event = event.originalEvent.touches[0];
 
-			
-
-			let containerBounds = this.sectionEl.nativeElement.getBoundingClientRect();
-			let containerXLeft = containerBounds.left;
-			let containerXRight = containerBounds.left + containerBounds.width;
-			let containerYAbove = containerBounds.top;
-			let containerYBelow = containerBounds.top + containerBounds.height;
-
-			if (event.clientX >= containerXLeft && event.clientX <= containerXRight &&
-				event.clientY >= containerYAbove && event.clientY <= containerYBelow)
+			if (this.helper.elementIsChild(event.target, this.sectionEl.nativeElement))
 			{
 				this.drag.startLeft = this.innerImagesEl.nativeElement.offsetLeft;
 				this.drag.currentLeft = this.innerImagesEl.nativeElement.offsetLeft;
@@ -281,9 +276,6 @@ export class SliderCarouselComponent implements OnInit, OnChanges, OnDestroy {
 
 	private onDragging(event) {
 		if (this.drag.state === 'start' || this.drag.state === 'dragging') {
-			event.preventDefault();
-			event.stopImmediatePropagation();
-
 			if (event.originalEvent && event.originalEvent.touches)
 				event = event.originalEvent.touches[0];
 
@@ -306,12 +298,9 @@ export class SliderCarouselComponent implements OnInit, OnChanges, OnDestroy {
 
 	private onEndDrag(event) {
 		if (event.button === 0) {
-			event.preventDefault();
-			event.stopImmediatePropagation();
-
 			let amountDragged = Math.abs(this.drag.startOffset - this.drag.currentOffset);
 
-			if (amountDragged > 0 && this.drag.state === 'dragging')
+			if (this.drag.state === 'dragging' && amountDragged > 0)
 				setTimeout(() => {
 					this.drag.state = 'none';
 
@@ -340,9 +329,7 @@ export class SliderCarouselComponent implements OnInit, OnChanges, OnDestroy {
 
 	ngOnDestroy() {
 		this.destroyed = true;
-
-		if (this.listeners && this.listeners.length)
-			this.listeners.forEach((unListen) => unListen());
+		this.stopSlideDragWatching();
 	}
 
 }
