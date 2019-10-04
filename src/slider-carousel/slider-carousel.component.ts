@@ -113,14 +113,18 @@ export class SliderCarouselComponent implements OnInit, OnChanges, OnDestroy {
 		if (this.innerImagesEl && this.innerImagesEl.nativeElement) {
 			this.stopSlideDragWatching();
 
-			this.listeners = [
-				this.renderer.listen(window, 'mousedown', this.onStartDrag.bind(this)),
-				this.renderer.listen(window, 'touchstart', this.onStartDrag.bind(this)),
-				this.renderer.listen(window, 'mousemove', this.onDragging.bind(this)),
-				this.renderer.listen(window, 'touchmove', this.onDragging.bind(this)),
-				this.renderer.listen(window, 'mouseup', this.onEndDrag.bind(this)),
-				this.renderer.listen(window, 'touchend', this.onEndDrag.bind(this))
-			];
+			if (this.helper.isMobileDevice())
+				this.listeners = [
+					this.renderer.listen(document.body, 'touchstart', this.onStartDrag.bind(this)),
+					this.renderer.listen(document.body, 'touchmove', this.onDragging.bind(this)),
+					this.renderer.listen(document.body, 'touchend', this.onEndDrag.bind(this))
+				];
+			else
+				this.listeners = [
+					this.renderer.listen(document.body, 'mousedown', this.onStartDrag.bind(this)),
+					this.renderer.listen(document.body, 'mousemove', this.onDragging.bind(this)),
+					this.renderer.listen(document.body, 'mouseup', this.onEndDrag.bind(this)),
+				];
 		}
 		else
 			setTimeout(() => this.initSlideDragWatching(), 200);
@@ -259,9 +263,13 @@ export class SliderCarouselComponent implements OnInit, OnChanges, OnDestroy {
 	}
 
 	private onStartDrag(event) {
-		if (event.button === 0) {
-			if (event.originalEvent && event.originalEvent.touches)
-				event = event.originalEvent.touches[0];
+		let isTouching = false;
+		if (event.touches) {
+			isTouching = true;
+			event = event.touches[0];
+		}
+		
+		if (isTouching || event.button === 0) {
 
 			if (this.helper.elementIsChild(event.target, this.sectionEl.nativeElement))
 			{
@@ -275,9 +283,10 @@ export class SliderCarouselComponent implements OnInit, OnChanges, OnDestroy {
 	}
 
 	private onDragging(event) {
+		if (event.touches)
+			event = event.touches[0];
+
 		if (this.drag.state === 'start' || this.drag.state === 'dragging') {
-			if (event.originalEvent && event.originalEvent.touches)
-				event = event.originalEvent.touches[0];
 
 			this.drag.state = 'dragging';
 			this.drag.currentOffset = event.clientX;
@@ -297,7 +306,13 @@ export class SliderCarouselComponent implements OnInit, OnChanges, OnDestroy {
 	}
 
 	private onEndDrag(event) {
-		if (event.button === 0) {
+		let isTouching = false;
+		if (event.touches) {
+			isTouching = true;
+			event = event.touches[0];
+		}
+		
+		if (isTouching || event.button === 0) {
 			let amountDragged = Math.abs(this.drag.startOffset - this.drag.currentOffset);
 
 			if (this.drag.state === 'dragging' && amountDragged > 0)
