@@ -59,7 +59,7 @@
     
                     &::before {
                         $rowColor: $defaultColor;
-                        @if ($rowColor = #FFFFFF) {
+                        @if ($rowColor == #FFFFFF) {
                             $rowColor: rgba(#000, .4);
                         }
 
