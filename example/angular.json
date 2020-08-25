@@ -25,8 +25,7 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": [],
-            "es5BrowserSupport": true
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -132,5 +131,8 @@
       }
     }
   },
-  "defaultProject": "example"
+  "defaultProject": "example",
+  "cli": {
+    "analytics": "3d2296e9-9e5e-4057-8879-9a3e57692279"
+  }
 }
