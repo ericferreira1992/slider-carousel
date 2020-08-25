@@ -17,7 +17,7 @@
             [ngClass]="{'dragging-effect': isDragging}"
             [style.left]="(isDragging ? drag.currentLeft : (-currentImageIndex * containerWidth)) + 'px'">
             <div *ngFor="let image of images; let i = index;" [style.width]="containerWidth + 'px'">
-                <img [src]="image.md"
+				<img [src]="image.md" draggable="false"
                     [ngClass]="{'cursor-pointer': preview, 'is-current': i === currentImageIndex}"
                     (click)="!isDragging && previewImage(image)"
                 />

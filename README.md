@@ -1,4 +1,4 @@
-# slider-carousel | Angular 7+
+# slider-carousel | Angular 10
 
 Angular component of the carousel, using the slider as a transition.
 This is a simple, clean and light alternative. It also does not need dependencies.

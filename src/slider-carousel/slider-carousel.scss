@@ -131,7 +131,12 @@
                         > img {
                             width: 100%;
                             height: auto;
-                            display: block;
+							display: block;
+							-webkit-user-select: none;
+							-khtml-user-select: none;
+							-moz-user-select: none;
+							-o-user-select: none;
+							user-select: none;
                         }
                     }
     
