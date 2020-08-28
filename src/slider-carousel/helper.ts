@@ -1,7 +1,6 @@
 import { Injectable, ComponentFactoryResolver, ApplicationRef, Injector, EmbeddedViewRef, ComponentRef } from '@angular/core';
 import { Observable, Subscriber } from 'rxjs';
 import { SliderCarouselPreviewComponent } from './slider-carousel-preview/slider-carousel-preview.component';
-import { isNullOrUndefined } from 'util';
 
 @Injectable()
 export class Helper {
@@ -103,7 +102,7 @@ export class Helper {
     
 	public elementIsChild(element, parentElment): boolean{
 		try {
-			while (!isNullOrUndefined(element) && element.tagName.toUpperCase() !== 'BODY') {
+			while (element && element.tagName.toUpperCase() !== 'BODY') {
 				if (element === parentElment) {
 					return true;
 				}
