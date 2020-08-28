@@ -1,4 +1,5 @@
 import { Component, OnInit, ElementRef, HostBinding } from '@angular/core';
+import { SafeValue } from '@angular/platform-browser';
 
 @Component({
 	selector: 'slider-carousel-preview',
@@ -12,7 +13,7 @@ export class SliderCarouselPreviewComponent implements OnInit {
 	@HostBinding('class.slider-carousel-preview') public class: boolean = true;
 	@HostBinding('class.closed') public closedClass: boolean = false;
 
-	public imageUrl: string = '';
+	public imageUrl: SafeValue | string = '';
 
 	public loading: boolean = true;
 
@@ -33,24 +34,24 @@ export class SliderCarouselPreviewComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this.imageUrl = this.modalRef.imageUrl;
-		this.loadImage();
+		this.imageUrl = this.modalRef.image.safeUrl;
+		this.loadImage(this.modalRef.image.pureUrl);
 	}
 
-	private loadImage() {
+	private loadImage(imageUrl: string) {
 		this.loading = true;
 		this.img = new Image();
 		this.img.onload = () => {
 			this.loading = false;
 			this.onWindowResize();
 		};
-		this.img.src = this.imageUrl;
+		this.img.src = imageUrl;
 	}
 
-	public onImageChange(imageUrl: string, fileName?: string) {
-		if (!this.loading && this.imageUrl !== imageUrl) {
-			this.imageUrl = imageUrl;
-			this.loadImage();
+	public onImageChange(image: { [key: string]: any }, fileName?: string) {
+		if (!this.loading && this.imageUrl !== image.safeUrl) {
+			this.imageUrl = image.safeUrl;
+			this.loadImage(image.pureUrl);
 		}
 	}
 

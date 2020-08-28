@@ -10,7 +10,7 @@ export class AppComponent {
 	public currentNumber: number = 1;
 	public example: any = null;
 	public images: string[] = [
-		'assets/img/at_01.jpg',
+		'https://firebasestorage.googleapis.com/v0/b/example-5e68c.appspot.com/o/namewith(and).png?alt=media&token=5a2c80cd-5652-46c9-8a60-6dd8c2d542e5',
 		'assets/img/at_02.jpg',
 		'assets/img/at_03.jpg',
 		'assets/img/at_04.jpg',

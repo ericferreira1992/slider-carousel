@@ -1,6 +1,6 @@
-<section *ngIf="!loading">
-    <img [src]="imageUrl" [style.width]="width" [style.height]="height" />
-    <div class="slider-carousel-preview-actions">
+<section>
+    <img [src]="imageUrl" [style.width]="width" [style.height]="height" [style.opacity]="loading ? 0 : 1" />
+    <div *ngIf="!loading" class="slider-carousel-preview-actions">
         <button matRipple matTooltipPosition="above" (click)="close()">
             <svg x="0px" y="0px" viewBox="0 0 51.976 51.976">
                 <path d="M44.373,7.603c-10.137-10.137-26.632-10.138-36.77,0c-10.138,10.138-10.137,26.632,0,36.77s26.632,10.138,36.77,0

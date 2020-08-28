@@ -1,4 +1,5 @@
 import { Component, OnInit, HostBinding, Input, ElementRef, ViewChild, OnDestroy, OnChanges, Renderer2 } from '@angular/core';
+import { DomSanitizer, SafeUrl, SafeStyle } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
 import { SliderCarouselPreviewComponent } from './slider-carousel-preview/slider-carousel-preview.component';
 import { Helper } from './helper';
@@ -26,6 +27,12 @@ export class SliderCarouselComponent implements OnInit, OnChanges, OnDestroy {
 	@Input('max-width') public maxWidth: string = '100%';
 	@Input('auto-size') public autoSize: boolean = false;
 
+	public safeImages: {
+		lg: { url: SafeUrl | string, style: SafeStyle | string, pure: string },
+		md: { url: SafeUrl | string, style: SafeStyle | string, pure: string },
+		sm: { url: SafeUrl | string, style: SafeStyle | string, pure: string }
+	}[] = [];
+
 	public initialized: boolean = false;
 
 	public currentImageIndex: number = 0;
@@ -44,7 +51,7 @@ export class SliderCarouselComponent implements OnInit, OnChanges, OnDestroy {
 
 	private listeners: (() => void)[] = [];
 
-	public get currentImage() { return this.images[this.currentImageIndex]; }
+	public get currentImage() { return this.safeImages[this.currentImageIndex]; }
 	public get currentIsFisrt() { return this.currentImageIndex === 0; }
 	public get currentIsLast() { return this.currentImageIndex === (this.images.length - 1); }
 
@@ -58,6 +65,7 @@ export class SliderCarouselComponent implements OnInit, OnChanges, OnDestroy {
 	};
 
 	constructor(
+		private sanitizer: DomSanitizer,
 		private renderer: Renderer2,
 		private helper: Helper
 	) {
@@ -102,10 +110,35 @@ export class SliderCarouselComponent implements OnInit, OnChanges, OnDestroy {
 						image.sm = image.md;
 				});
 			}
-			else
+			else {
 				this.images = (this.images as string[]).map((image) => {
 					return { lg: image, md: image, sm: image };
 				});
+			}
+
+			this.safeImages = (this.images as { lg: string, md: string, sm: string }[]).map((image) => {
+				let sizes = {
+					lg: { 
+						url: image.lg?.startsWith('http') ? this.sanitizer.bypassSecurityTrustUrl(image.lg) : image.lg,
+						style: image.lg?.startsWith('http') ? this.sanitizer.bypassSecurityTrustStyle(`url('${image.lg}')`) : `url('${image.lg}')`,
+						pure: image.lg
+					},
+					md: { 
+						url: image.md?.startsWith('http') ? this.sanitizer.bypassSecurityTrustUrl(image.md) : image.md,
+						style: image.md?.startsWith('http') ? this.sanitizer.bypassSecurityTrustStyle(`url('${image.md}')`) : `url('${image.md}')`,
+						pure: image.md
+					},
+					sm: { 
+						url: image.sm?.startsWith('http') ? this.sanitizer.bypassSecurityTrustUrl(image.sm) : image.sm,
+						style: image.sm?.startsWith('http') ? this.sanitizer.bypassSecurityTrustStyle(`url('${image.sm}')`) : `url('${image.sm}')`,
+						pure: image.sm
+					}
+				};
+				return sizes;
+			});
+		}
+		else {
+			this.safeImages = [];
 		}
 	}
 
@@ -154,7 +187,10 @@ export class SliderCarouselComponent implements OnInit, OnChanges, OnDestroy {
 	public previewImage(image: any) {
 		if (!this.previewRef) {
 			this.previewRef = this.helper.openPreview({
-				imageUrl: image.lg
+				image: {
+					pureUrl: image.lg.pure,
+					safeUrl: image.lg.url,
+				}
 			});
 
 			this.previewRef.onClose.subscribe(() => this.previewRef = null);
@@ -240,7 +276,10 @@ export class SliderCarouselComponent implements OnInit, OnChanges, OnDestroy {
 				this.goNextImage();
 				
 			if (this.previewRef)
-				this.previewRef.instance.onImageChange((this.currentImage as any).lg);
+				this.previewRef.instance.onImageChange({
+					pureUrl: this.currentImage.lg.pure,
+					safeUrl: this.currentImage.lg.url,
+				});
 		}
 	}
 
