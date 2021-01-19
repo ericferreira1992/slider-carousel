@@ -1,26 +1,22 @@
 <section #section *ngIf="safeImages && safeImages.length" [style.width]="width" [style.maxWidth]="maxWidth">
-    <div [hidden]="windowResizing" *ngIf="containerWidth > 0" class="image-controller animated fadeIn" [style.maxWidth]="containerWidth + 'px'">
+    <div *ngIf="!windowResizing && containerWidth > 0" class="image-controller animated fadeIn" [style.maxWidth.px]="containerWidth">
 
         <!-- INNER CONTAINER -->
         <ul #innerImages *ngIf="!autoSize"
             [ngClass]="{'dragging-effect': isDragging}"
-            [style.left]="(isDragging ? drag.currentLeft : (-currentImageIndex * containerWidth)) + 'px'"
+			[style.left.px]="isDragging ? drag.currentLeft : (-currentImageIndex * containerWidth)"
+			[style.width.px]="safeImages.length * containerWidth"
             [style.height]="height">
             <li *ngFor="let image of safeImages; let i = index;"
                 [style.backgroundImage]="image.md.style"
-                [style.width]="containerWidth + 'px'"
+                [style.width.px]="containerWidth"
                 [ngClass]="{'cursor-pointer': preview, 'is-current': i === currentImageIndex}"
                 (click)="!isDragging && previewImage(image)">
             </li>
         </ul>
-        <ul #innerImages *ngIf="autoSize"
-            [ngClass]="{'dragging-effect': isDragging}"
-            [style.left]="(isDragging ? drag.currentLeft : (-currentImageIndex * containerWidth)) + 'px'">
-            <div *ngFor="let image of safeImages; let i = index;" [style.width]="containerWidth + 'px'">
-				<img [src]="image.md.url" draggable="false"
-                    [ngClass]="{'cursor-pointer': preview, 'is-current': i === currentImageIndex}"
-                    (click)="!isDragging && previewImage(image)"
-                />
+        <ul #innerImages *ngIf="autoSize" [ngClass]="{'dragging-effect': isDragging}" [style.left.px]="isDragging ? drag.currentLeft : (-currentImageIndex * containerWidth)">
+            <div *ngFor="let image of safeImages; let i = index;" [style.width.px]="containerWidth">
+				<img [src]="image.md.url" draggable="false" [ngClass]="{'cursor-pointer': preview, 'is-current': i === currentImageIndex}" (click)="!isDragging && previewImage(image)"/>
             </div>
         </ul>
 
@@ -47,7 +43,7 @@
     </div>
 
     <!-- GALLERY NAVIGATION -->
-    <div [hidden]="windowResizing" *ngIf="!windowResizing && containerWidth > 0" #imageList class="footer-images animated fadeIn" [style.maxWidth]="containerWidth + 'px'">
+    <div *ngIf="!windowResizing && containerWidth > 0" #imageList class="footer-images animated fadeIn" [style.maxWidth.px]="containerWidth">
         <ul>
             <li matRipple (click)="selectImage(i, $event)" *ngFor="let image of safeImages; let i = index;"
                 [ngClass]="{'is-current': i === currentImageIndex}"

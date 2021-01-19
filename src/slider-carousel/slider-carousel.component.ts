@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding, Input, ElementRef, ViewChild, OnDestroy, OnChanges, Renderer2 } from '@angular/core';
+import { Component, OnInit, HostBinding, Input, ElementRef, ViewChild, OnDestroy, OnChanges, Renderer2, AfterViewChecked } from '@angular/core';
 import { DomSanitizer, SafeUrl, SafeStyle } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
 import { SliderCarouselPreviewComponent } from './slider-carousel-preview/slider-carousel-preview.component';
@@ -12,7 +12,7 @@ import { Helper } from './helper';
 		'(window:resize)': 'onWindowResize()'
 	}
 })
-export class SliderCarouselComponent implements OnInit, OnChanges, OnDestroy {
+export class SliderCarouselComponent implements OnInit, OnChanges, OnDestroy, AfterViewChecked {
 	@HostBinding('class.slider-carousel') public class: boolean = true;
 
 	@ViewChild('section') private sectionEl: ElementRef<HTMLElement>;
@@ -97,7 +97,18 @@ export class SliderCarouselComponent implements OnInit, OnChanges, OnDestroy {
 		this.initialized = true;
 		this.checkImages();
 		this.initSlideDragWatching();
-		this.defineContainerWidth();
+		this.ngAfterViewChecked();
+	}
+
+	ngAfterViewChecked(): void {
+		if (!this.windowResizing) {
+			let width = 0;
+			if (this.sectionEl && this.sectionEl.nativeElement)
+				width = this.sectionEl.nativeElement.clientWidth;
+
+			if (width !== this.containerWidth)
+				this.containerWidth = width;
+		}
 	}
 
 	private checkImages() {
@@ -166,22 +177,6 @@ export class SliderCarouselComponent implements OnInit, OnChanges, OnDestroy {
 	private stopSlideDragWatching() {
 		if (this.listeners && this.listeners.length)
 			this.listeners.forEach((unListen) => unListen());
-	}
-
-	private defineContainerWidth() {
-		if (this.destroyed)
-			return;
-
-		if (!this.windowResizing) {
-			let width = 0;
-			if (this.sectionEl && this.sectionEl.nativeElement)
-				width = this.sectionEl.nativeElement.clientWidth;
-
-			if (width !== this.containerWidth)
-				this.containerWidth = width;
-		}
-
-		setTimeout(this.defineContainerWidth.bind(this), 100);
 	}
 
 	public previewImage(image: any) {
@@ -288,15 +283,17 @@ export class SliderCarouselComponent implements OnInit, OnChanges, OnDestroy {
 			this.windowResizing = true;
 			setTimeout(() => {
 				this.containerWidth = this.sectionEl.nativeElement.clientWidth;
-				this.windowResizing = false;
-
 				setTimeout(() => {
-					if (this.imageListEl && this.imageListEl.nativeElement) {
-						let target = this.imageListEl.nativeElement.children[0].children[this.currentImageIndex] as HTMLElement;
-						if (this.imageListEl && this.imageListEl.nativeElement)
-							this.scrollingToElement(target, this.lastDirectionIsRight);
-					}
-				}, 100);
+					this.windowResizing = false;
+
+					setTimeout(() => {
+						if (this.imageListEl && this.imageListEl.nativeElement) {
+							let target = this.imageListEl.nativeElement.children[0].children[this.currentImageIndex] as HTMLElement;
+							if (this.imageListEl && this.imageListEl.nativeElement)
+								this.scrollingToElement(target, this.lastDirectionIsRight);
+						}
+					}, 100);
+				});
 			});
 		}
 	}
@@ -309,9 +306,7 @@ export class SliderCarouselComponent implements OnInit, OnChanges, OnDestroy {
 		}
 		
 		if (isTouching || event.button === 0) {
-
-			if (this.helper.elementIsChild(event.target, this.sectionEl.nativeElement))
-			{
+			if (this.helper.elementIsChild(event.target, this.sectionEl.nativeElement)) {
 				this.drag.startLeft = this.innerImagesEl.nativeElement.offsetLeft;
 				this.drag.currentLeft = this.innerImagesEl.nativeElement.offsetLeft;
 				this.drag.startOffset = event.clientX;

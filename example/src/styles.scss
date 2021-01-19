@@ -8,5 +8,9 @@ html, body {
     height: 100%;
 }
 
+* {
+	box-sizing: border-box;
+}
+
 @import '../../src/slider-carousel/slider-carousel.scss';
 @include slider-carousel($color, $bg);
